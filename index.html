@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LabVIEW Türkiye Yedek">
+    <title>LabVIEW Türkiye Yedek</title>
+
+    <style>
+        /* Genel ayarlar */
+        body {
+            margin: 0;
+            background-color: #2f3136;
+            color: #dcddde;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Sol tarafta yer alan kanal listesi */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background-color: #202225;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        /* Kanal başlığı (Dosya İndeksi) */
+        .sidebar h2 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 1.3em;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #36393f;
+        }
+
+        /* Kanal listesi */
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Kanal öğesi */
+        .sidebar li {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Kanal bağlantıları */
+        .sidebar a {
+            color: #b9bbbe;
+            text-decoration: none;
+            font-size: 1.1em;
+            display: block;
+            transition: background 0.2s ease;
+        }
+
+        /* Kanalın üzerine gelindiğinde */
+        .sidebar a:hover {
+            background-color: #393c43;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+        /* Seçili kanal (aktif durumda) */
+        .sidebar a.active {
+            background-color: #5865f2;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+        /* Sağda yer alan içerik bölümü */
+        .content {
+            margin-left: 240px;
+            padding: 20px;
+            color: #dcddde;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Başlık */
+        h1 {
+            color: #ffffff;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        /* Alt bilgi */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #72767d;
+        }
+    </style>
+
+    <script>
+        // HTML dosyalarını content alanına yüklemek için fonksiyon
+        function loadContent(page) {
+            fetch(page)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    document.getElementById('content').innerHTML = '<p>İçerik yüklenirken bir hata oluştu.</p>';
+                });
+        }
+    </script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Kanallar</h2>
+        <ul>
+            <li><a href="#" onclick="loadContent('ai.html')">AI</a></li>
+            <li><a href="#" onclick="loadContent('daq.html')">DAQ</a></li>
+            <li><a href="#" onclick="loadContent('faydalı-serverlar.html')">Faydalı Serverlar</a></li>
+            <li><a href="#" onclick="loadContent('fpga.html')">FPGA</a></li>
+            <li><a href="#" onclick="loadContent('frameworks.html')">Frameworks</a></li>
+            <li><a href="#" onclick="loadContent('front-panel.html')">Front Panel</a></li>
+            <li><a href="#" onclick="loadContent('genel.html')">Genel</a></li>
+            <li><a href="#" onclick="loadContent('git-ci-cd.html')">Git CI/CD</a></li>
+            <li><a href="#" onclick="loadContent('haberleşme.html')">Haberleşme</a></li>
+            <li><a href="#" onclick="loadContent('hardware.html')">Hardware</a></li>
+            <li><a href="#" onclick="loadContent('kaynak.html')">Kaynak</a></li>
+            <li><a href="#" onclick="loadContent('konu-talep-öneri.html')">Konu Talep Öneri</a></li>
+            <li><a href="#" onclick="loadContent('ortaya-karışık-snippets.html')">Ortaya Karışık Snippets</a></li>
+            <li><a href="#" onclick="loadContent('rt.html')">RT</a></li>
+            <li><a href="#" onclick="loadContent('software-test.html')">Software Test</a></li>
+            <li><a href="#" onclick="loadContent('toolkits-vipm.html')">Toolkits VIPM</a></li>
+        </ul>
+    </div>
+
+    <div class="content" id="content">
+        <footer>© 2024 LabVIEW Türkiye Topluluğu</footer>
+    </div>
+
+</body>
+</html>
