@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LabVIEW Türkiye Yedek">
-    <title>LabVIEW Türkiye Yedek</title>
+    <meta name="description" content="LabVIEW Türkite Topluluğu">
+    <title>LabVIEW Türkiye Topluluğu Kanal Yedek</title>
 
     <style>
         /* Genel ayarlar */
@@ -18,7 +18,7 @@
         /* Sol tarafta yer alan kanal listesi */
         .sidebar {
             width: 240px;
-            height: 100vh;
+            height: 100vh; /* Yüksekliği tam ekran yap */
             background-color: #202225;
             position: fixed;
             top: 0;
@@ -26,6 +26,17 @@
             display: flex;
             flex-direction: column;
             padding-top: 20px;
+            overflow-y: auto; /* Dikey kaydırma çubuğu ekle */
+        }
+
+        /* Sidebar için scrollbar görünümü */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: #5865f2;
+            border-radius: 4px;
         }
 
         /* Kanal başlığı (Dosya İndeksi) */
@@ -95,6 +106,21 @@
             margin-top: 50px;
             color: #72767d;
         }
+
+        /* Mobile uyumlu tasarım */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 100px; /* Daha küçük ekranlar için sidebar genişliği */
+            }
+
+            .content {
+                margin-left: 100px; /* İçeriği daralt */
+            }
+
+            .sidebar a {
+                font-size: 0.9em; /* Daha küçük yazı boyutu */
+            }
+        }
     </style>
 
     <script>
@@ -108,6 +134,11 @@
                 .catch(error => {
                     document.getElementById('content').innerHTML = '<p>İçerik yüklenirken bir hata oluştu.</p>';
                 });
+        }
+
+        // Sayfa yüklendiğinde "genel.html" dosyasını yükle
+        window.onload = function() {
+            loadContent('genel.html');
         }
     </script>
 </head>
@@ -136,7 +167,7 @@
     </div>
 
     <div class="content" id="content">
-        <footer>© 2024 LabVIEW Türkiye Topluluğu</footer>
+        <!-- İçerik buraya yüklenecek -->
     </div>
 
 </body>
