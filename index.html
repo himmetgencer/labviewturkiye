@@ -10,121 +10,118 @@
         /* Genel ayarlar */
         body {
             margin: 0;
+            padding: 0;
             background-color: #2f3136;
             color: #dcddde;
             font-family: 'Arial', sans-serif;
-        }
-
-        /* Sol tarafta yer alan kanal listesi */
-        .sidebar {
-            width: 240px;
-            height: 100vh; /* Yüksekliği tam ekran yap */
-            background-color: #202225;
-            position: fixed;
-            top: 0;
-            left: 0;
             display: flex;
             flex-direction: column;
-            padding-top: 20px;
-            overflow-y: auto; /* Dikey kaydırma çubuğu ekle */
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Sidebar için scrollbar görünümü */
-        .sidebar::-webkit-scrollbar {
-            width: 8px;
+        /* Wrapper for sidebar and content */
+        .wrapper {
+            display: flex;
+            height: 100%;
         }
 
-        .sidebar::-webkit-scrollbar-thumb {
-            background-color: #5865f2;
-            border-radius: 4px;
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: #202225;
+            flex-shrink: 0;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            position: relative; /* Pozisyon için relative */
         }
 
-        /* Kanal başlığı (Dosya İndeksi) */
-        .sidebar h2 {
-            color: #ffffff;
-            text-align: center;
-            font-size: 1.3em;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #36393f;
-        }
-
-        /* Kanal listesi */
         .sidebar ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
 
-        /* Kanal öğesi */
         .sidebar li {
             padding: 10px 20px;
             cursor: pointer;
         }
 
-        /* Kanal bağlantıları */
         .sidebar a {
             color: #b9bbbe;
             text-decoration: none;
-            font-size: 1.1em;
             display: block;
-            transition: background 0.2s ease;
         }
 
-        /* Kanalın üzerine gelindiğinde */
         .sidebar a:hover {
             background-color: #393c43;
-            color: #ffffff;
-            border-radius: 5px;
+            color: white;
         }
 
-        /* Seçili kanal (aktif durumda) */
-        .sidebar a.active {
-            background-color: #5865f2;
-            color: #ffffff;
-            border-radius: 5px;
-        }
-
-        /* Sağda yer alan içerik bölümü */
+        /* İçerik alanı */
         .content {
-            margin-left: 240px;
+            flex-grow: 1;
             padding: 20px;
-            color: #dcddde;
-            height: 100vh;
             overflow-y: auto;
+            height: 100%;
         }
 
-        /* Başlık */
-        h1 {
-            color: #ffffff;
-            font-size: 2em;
-            margin-bottom: 20px;
+        /* Hamburger butonu */
+        .menu-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px; /* Sidebar dışındaki sağ üst köşe */
+            background-color: transparent;
+            color: #ffffff; /* Yazı rengi beyaz */
+            border: none;
+            cursor: pointer;
+            font-size: 24px; /* Boyut ayarı */
+            z-index: 1001; /* Menü butonu sidebar'dan daha üstte */
         }
 
-        /* Alt bilgi */
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            color: #72767d;
+        /* Hamburger simgesi */
+        .menu-btn:before {
+            content: '☰'; /* Basit hamburger simgesi */
+            font-size: 24px; /* Simgelerin boyutu */
         }
 
-        /* Mobile uyumlu tasarım */
-        @media screen and (max-width: 768px) {
+        /* Kanallar başlığı */
+        .kanallar {
+            font-size: 18px;
+            padding: 10px 20px;
+            color: #b9bbbe;
+            border-bottom: 1px solid #393c43; /* Ayırıcı çizgi */
+        }
+
+        /* Mobil cihazlar için hamburger menü ve gizli sidebar */
+        @media (max-width: 768px) {
             .sidebar {
-                width: 100px; /* Daha küçük ekranlar için sidebar genişliği */
+                display: none; /* Mobilde varsayılan olarak gizli */
             }
 
-            .content {
-                margin-left: 100px; /* İçeriği daralt */
+            .sidebar.open {
+                display: block; /* Açıldığında gösterilsin */
+                position: absolute; /* Sidebar pozisyonu */
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 240px;
+                z-index: 1000; /* Sidebar en üste gelsin */
             }
 
-            .sidebar a {
-                font-size: 0.9em; /* Daha küçük yazı boyutu */
+            .menu-btn {
+                display: block; /* Mobilde buton gösterilsin */
             }
         }
     </style>
 
     <script>
-        // HTML dosyalarını content alanına yüklemek için fonksiyon
+        // Sayfa yüklendiğinde 'genel.html' yüklenmesi
+        window.onload = function () {
+            loadContent('genel.html');
+        }
+
+        // Sidebar'daki bağlantılara tıklanınca içerik yükleme fonksiyonu
         function loadContent(page) {
             fetch(page)
                 .then(response => response.text())
@@ -136,38 +133,46 @@
                 });
         }
 
-        // Sayfa yüklendiğinde "genel.html" dosyasını yükle
-        window.onload = function() {
-            loadContent('genel.html');
+        // Sidebar açma/kapama fonksiyonu (Mobilde)
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('open');
         }
     </script>
 </head>
 <body>
 
-    <div class="sidebar">
-        <h2>Kanallar</h2>
-        <ul>
-            <li><a href="#" onclick="loadContent('ai.html')">AI</a></li>
-            <li><a href="#" onclick="loadContent('daq.html')">DAQ</a></li>
-            <li><a href="#" onclick="loadContent('faydalı-serverlar.html')">Faydalı Serverlar</a></li>
-            <li><a href="#" onclick="loadContent('fpga.html')">FPGA</a></li>
-            <li><a href="#" onclick="loadContent('frameworks.html')">Frameworks</a></li>
-            <li><a href="#" onclick="loadContent('front-panel.html')">Front Panel</a></li>
-            <li><a href="#" onclick="loadContent('genel.html')">Genel</a></li>
-            <li><a href="#" onclick="loadContent('git-ci-cd.html')">Git CI/CD</a></li>
-            <li><a href="#" onclick="loadContent('haberleşme.html')">Haberleşme</a></li>
-            <li><a href="#" onclick="loadContent('hardware.html')">Hardware</a></li>
-            <li><a href="#" onclick="loadContent('kaynak.html')">Kaynak</a></li>
-            <li><a href="#" onclick="loadContent('konu-talep-öneri.html')">Konu Talep Öneri</a></li>
-            <li><a href="#" onclick="loadContent('ortaya-karışık-snippets.html')">Ortaya Karışık Snippets</a></li>
-            <li><a href="#" onclick="loadContent('rt.html')">RT</a></li>
-            <li><a href="#" onclick="loadContent('software-test.html')">Software Test</a></li>
-            <li><a href="#" onclick="loadContent('toolkits-vipm.html')">Toolkits VIPM</a></li>
-        </ul>
-    </div>
+    <!-- Ana wrapper -->
+    <div class="wrapper">
+        <!-- Hamburger menü butonu -->
+        <button class="menu-btn" onclick="toggleSidebar()">Kanallar</button>
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul>
+                <li><a href="#" onclick="loadContent('ai.html')">AI</a></li>
+                <li><a href="#" onclick="loadContent('daq.html')">DAQ</a></li>
+                <li><a href="#" onclick="loadContent('faydalı-serverlar.html')">Faydalı Serverlar</a></li>
+                <li><a href="#" onclick="loadContent('fpga.html')">FPGA</a></li>
+                <li><a href="#" onclick="loadContent('frameworks.html')">Frameworks</a></li>
+                <li><a href="#" onclick="loadContent('front-panel.html')">Front Panel</a></li>
+                <li><a href="#" onclick="loadContent('genel.html')">Genel</a></li>
+                <li><a href="#" onclick="loadContent('git-ci-cd.html')">Git CI/CD</a></li>
+                <li><a href="#" onclick="loadContent('haberleşme.html')">Haberleşme</a></li>
+                <li><a href="#" onclick="loadContent('hardware.html')">Hardware</a></li>
+                <li><a href="#" onclick="loadContent('kaynak.html')">Kaynak</a></li>
+                <li><a href="#" onclick="loadContent('konu-talep-öneri.html')">Konu Talep Öneri</a></li>
+                <li><a href="#" onclick="loadContent('ortaya-karışık-snippets.html')">Ortaya Karışık Snippets</a></li>
+                <li><a href="#" onclick="loadContent('rt.html')">RT</a></li>
+                <li><a href="#" onclick="loadContent('software-test.html')">Software Test</a></li>
+                <li><a href="#" onclick="loadContent('toolkits-vipm.html')">Toolkits VIPM</a></li>
+            </ul>
+        </div>
 
-    <div class="content" id="content">
-        <!-- İçerik buraya yüklenecek -->
+        <!-- İçerik alanı -->
+        <div class="content" id="content">
+            <!-- İçerik buraya yüklenecek -->
+        </div>
     </div>
 
 </body>
