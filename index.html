@@ -18,7 +18,7 @@
         /* Sol tarafta yer alan kanal listesi */
         .sidebar {
             width: 240px;
-            height: 100vh; /* Yüksekliği tam ekran yap */
+            height: 100vh;
             background-color: #202225;
             position: fixed;
             top: 0;
@@ -26,7 +26,13 @@
             display: flex;
             flex-direction: column;
             padding-top: 20px;
-            overflow-y: auto; /* Dikey kaydırma çubuğu ekle */
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* Sidebar gizleme */
+        .sidebar.closed {
+            transform: translateX(-100%);
         }
 
         /* Sidebar için scrollbar görünümü */
@@ -93,11 +99,25 @@
             overflow-y: auto;
         }
 
-        /* Başlık */
-        h1 {
-            color: #ffffff;
-            font-size: 2em;
-            margin-bottom: 20px;
+        /* Sidebar kapandığında content tam genişlikte olur */
+        .content.fullwidth {
+            margin-left: 0;
+        }
+
+        /* Hamburger menü butonu */
+        .menu-btn {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            background-color: #5865f2;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
         }
 
         /* Alt bilgi */
@@ -110,15 +130,17 @@
         /* Mobile uyumlu tasarım */
         @media screen and (max-width: 768px) {
             .sidebar {
-                width: 100px; /* Daha küçük ekranlar için sidebar genişliği */
+                width: 240px;
+                position: fixed;
+                transform: translateX(-100%);
+            }
+
+            .menu-btn {
+                display: block;
             }
 
             .content {
-                margin-left: 100px; /* İçeriği daralt */
-            }
-
-            .sidebar a {
-                font-size: 0.9em; /* Daha küçük yazı boyutu */
+                margin-left: 0;
             }
         }
     </style>
@@ -140,11 +162,22 @@
         window.onload = function() {
             loadContent('genel.html');
         }
+
+        // Sidebar'ı açıp kapatan fonksiyon
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+            sidebar.classList.toggle('closed');
+            content.classList.toggle('fullwidth');
+        }
     </script>
 </head>
 <body>
 
-    <div class="sidebar">
+    <!-- Hamburger menü butonu (sadece mobilde görünecek) -->
+    <button class="menu-btn" onclick="toggleSidebar()">☰ Menü</button>
+
+    <div class="sidebar closed">
         <h2>Kanallar</h2>
         <ul>
             <li><a href="#" onclick="loadContent('ai.html')">AI</a></li>
@@ -166,7 +199,7 @@
         </ul>
     </div>
 
-    <div class="content" id="content">
+    <div class="content fullwidth" id="content">
         <!-- İçerik buraya yüklenecek -->
     </div>
 
